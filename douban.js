@@ -23,15 +23,17 @@
 // styleSheet.innerText = styles
 // document.head.appendChild(styleSheet)
 
+const $ = new Env(`douban`);
 
 //以上测试浏览器兼容代码，实际使用可以删除
-
+    var body = $response.body
     //判断是否是对应小组
     const groupidpattern = /(656297|698716|700687|536786|712738|716166)/;
     if (typeof group !== 'undefined' && group.id) {
         var groupid = group.id;
     } else {
-        groupid = $(".info a").attr("href").replace("/group/", "");
+        groupid = body.find(".info a").attr("href").replace("/group/", "")
+        // groupid = $(".info a").attr("href").replace("/group/", "");
     }
     if (!groupidpattern.test(groupid)) {
         return;
@@ -42,23 +44,12 @@
         var topictitle = topic.title;
         var topicid = topic.id;
     } else {
-        topictitle = $("title").text();
+        topictitle = body.find("title").text();
         topicid = PARAM.target_id;
     }
-
-        // 自动展开移动端手机原文
-        $('.openapp.block-btn').click();
-        // 找到包含百度的 div 弹窗广告，并删除它们
-        $('div iframe[src*="baidu.com"]').closest('div').remove();
-        // 找到包含百度的 文章下面广告，并删除它们
-        $('section div iframe[src*="baidu.com"]').closest('section').remove();
-        // 再来一次
-        $('div iframe[src*="baidu.com"]').closest('div').remove();
-        //添加手机回复问答功能
-        $(".question-title").after('<div class="question-content"><div class="question-meta"></div><form><textarea class="question-input" placeholder="请输入正确答案"></textarea><div class="question-submit"><button class="question-btn disabled">提交</button><div class="question-tip">提交后可查看结果</div></div></form></div>');
     
     //自动回答
-    $('div[data-entity-type="question"]').each(function() {
+    body.find('div[data-entity-type="question"]').each(function() {
         let htmldata = this;
         let data = {
             Act: 'get',
