@@ -26,13 +26,12 @@
 const $ = new Env(`douban`);
 
 //以上测试浏览器兼容代码，实际使用可以删除
-    var body = $response.body
     //判断是否是对应小组
     const groupidpattern = /(656297|698716|700687|536786|712738|716166)/;
     if (typeof group !== 'undefined' && group.id) {
         var groupid = group.id;
     } else {
-        groupid = body.find(".info a").attr("href").replace("/group/", "")
+        groupid = document.querySelectorAll(".info a").attr("href").replace("/group/", "")
         // groupid = $(".info a").attr("href").replace("/group/", "");
     }
     if (!groupidpattern.test(groupid)) {
@@ -44,12 +43,12 @@ const $ = new Env(`douban`);
         var topictitle = topic.title;
         var topicid = topic.id;
     } else {
-        topictitle = body.find("title").text();
+        topictitle = document.querySelectorAll("title").text();
         topicid = PARAM.target_id;
     }
     
     //自动回答
-    body.find('div[data-entity-type="question"]').each(function() {
+    body.document.querySelectorAll('div[data-entity-type="question"]').forEach(function() {
         let htmldata = this;
         let data = {
             Act: 'get',
